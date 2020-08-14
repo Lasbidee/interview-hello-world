@@ -7,13 +7,12 @@ pipeline {
             python -m venv .venv
             . .venv/bin/activate
             pip install -r requirements.txt
-            pytest -v
-        '''
+          '''
       }
     }
     stage('test') {
       steps {
-        sh 'python -m pytest tests'
+        sh 'pytest -v'
       }   
     }
   }
