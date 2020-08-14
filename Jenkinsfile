@@ -8,8 +8,8 @@ pipeline {
                 }
             }
             steps {
-                sh 'sudo pip install -r requirements.txt' 
-                sh 'sudo docker build .' 
+                sh 'pip install -r requirements.txt' 
+                sh 'docker build .' 
             }
         }
 
