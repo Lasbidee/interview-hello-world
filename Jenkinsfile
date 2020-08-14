@@ -9,7 +9,7 @@ pipeline {
             }
             steps {
                 sh 'pip install -r requirements.txt' 
-                sh 'export FLASK_APP=hello/hello.py python3 -m flask run' 
+                sh 'docker build .' 
             }
         }
 
