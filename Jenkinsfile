@@ -11,9 +11,9 @@ pipeline {
           '''
       }
     }
-    stage('Message') {
+    stage('Docker') {
       steps {
-        echo 'Finished'
+        echo 'docker build .'
       }   
     }
   }
