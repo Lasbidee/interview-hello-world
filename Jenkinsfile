@@ -8,7 +8,7 @@ pipeline {
                 }
             }
             steps {
-                sh 'docker build .' 
+                bat 'docker build .' 
             }
         }
 
