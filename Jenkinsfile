@@ -1,7 +1,7 @@
 pipeline {
   agent { docker { image 'python:3.7.2' } }
   stages {
-    stage('test') {
+    stage('Environ and Test') {
       steps {
         sh '''
             python -m venv .venv
@@ -11,9 +11,9 @@ pipeline {
           '''
       }
     }
-    stage('Docker') {
+    stage('Build Image') {
       steps {
-        echo 'docker build .'
+        sh "sudo docker build -t interview-app ."
       }   
     }
   }
