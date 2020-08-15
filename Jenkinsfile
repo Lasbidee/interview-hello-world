@@ -1,33 +1,22 @@
 pipeline {
-    agent none
-    stages {
-        stage('Build') {
-            agent {
-                docker {
-                    image 'python:3.7.2'
-                }
-            }
-
-        }
-        stage('Test') { 
-            agent {
-                docker {
-                    image 'python:3.7.2' 
-                }
-            }
-            steps {
-                sh '''
-                    python -m venv .venv
-                    . .venv/bin/activate
-                    pip install -r requirements.txt
-                    pytest -v
-                   ''' 
-            }
-            post {
-                always {
-                    junit 'test-reports/results.xml' 
-                }
-            }
-        }
+  agent { docker { image 'python:3.7.2' } }
+  stages {
+    
+    stage('Unit test') {
+      steps {
+        sh '''
+              python -m venv .venv
+              . .venv/bin/activate
+              pip install -r requirements.txt
+              pytest -v
+            ''' 
+      }   
     }
+    stage('Build Docker') {
+       // build the docker image from the source code using the BUILD_ID parameter in image name
+       dir("hello_world") {
+         sh "docker build -t helloworldapp-${BUILD_ID} ."
+       }
+   }
+  }
 }
