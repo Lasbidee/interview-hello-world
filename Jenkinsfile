@@ -13,7 +13,7 @@ pipeline {
     }
     stage('Build Image') {
       steps {
-        sh "sudo docker build -t interview-app ."
+        sh "docker build -t interview-app ."
       }   
     }
   }
