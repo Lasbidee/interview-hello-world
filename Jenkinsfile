@@ -1,25 +1,26 @@
-node {
-   stage('Get Source') {
-      // copy source code from local file system and test
-      // for a Dockerfile to build the Docker image
-      deleteDir()
-      
-      if (!fileExists("Dockerfile")) {
-         error('Dockerfile missing.')
+pipeline {
+  agent { docker { image 'python:3.7.2' } }
+  stages {
+    stage('build') {
+      steps {
+        sh 'pip install -r requirements.txt'
       }
-   }
-   stage('Unit Test') {
-      // run the unit tests
-      dir("hello_world") {
-         sh ". .env/bin/activate"
-         sh "pip install -r requirements.txt"
-         sh "python -m pytest tests/test_app.py"
-      }
-   }
-   stage('Build Docker') {
+    }
+    stage('Unit test') {
+      steps {
+        sh '''
+                    python -m venv .venv
+                    . .venv/bin/activate
+                    pip install -r requirements.txt
+                    pytest -v
+            ''' 
+      }   
+    }
+    stage('Build Docker') {
        // build the docker image from the source code using the BUILD_ID parameter in image name
        dir("hello_world") {
          sh "docker build -t helloworldapp-${BUILD_ID} ."
        }
    }
+  }
 }
