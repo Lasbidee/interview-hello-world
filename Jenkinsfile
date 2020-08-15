@@ -1,18 +1,13 @@
 pipeline {
   agent { docker { image 'python:3.7.2' } }
-  stages {
-    stage('build') {
-      steps {
-        sh 'pip install -r requirements.txt'
-      }
-    }
+
     stage('Unit test') {
       steps {
         sh '''
-                    python -m venv .venv
-                    . .venv/bin/activate
-                    pip install -r requirements.txt
-                    pytest -v
+                python -m venv .venv
+                . .venv/bin/activate
+                pip install -r requirements.txt
+                pytest -v
             ''' 
       }   
     }
@@ -22,5 +17,4 @@ pipeline {
          sh "docker build -t helloworldapp-${BUILD_ID} ."
        }
    }
-  }
 }
